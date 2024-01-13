@@ -1,0 +1,56 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-parcelize'
+    id 'maven-publish'
+}
+
+android {
+    namespace 'cctvcat.saction'
+    compileSdk compile_sdk
+
+    defaultConfig {
+        minSdk min_sdk
+        targetSdk target_sdk
+
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility java_version
+        targetCompatibility java_version
+    }
+    kotlinOptions {
+        jvmTarget = jvm_target
+    }
+    buildFeatures {
+        aidl true
+    }
+}
+
+dependencies {
+    api 'dev.rikka.hidden:compat:4.2.0'
+    compileOnly 'dev.rikka.hidden:stub:4.2.0'
+    implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:4.3'
+
+    implementation 'androidx.core:core-ktx:1.8.0'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = group_id
+                artifactId = artifact_id
+                version = version_name
+            }
+        }
+    }
+}
